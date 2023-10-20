@@ -41,9 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'mailing',
-    'blog',
-    'users',
+
 
 ]
 
@@ -142,9 +140,9 @@ EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True
 
 # # Users
-# AUTH_USER_MODEL = 'users.User'
-# LOGIN_REDIRECT_URL = '/'
-# LOGOUT_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # cache
 CACHES = {
