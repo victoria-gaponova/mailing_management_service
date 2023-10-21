@@ -41,7 +41,13 @@ class Message(models.Model):
 
 
 class Log(models.Model):
+    STATUS_CHOICES = (
+        ('created', 'Created'),
+        ('success', 'Success'),
+        ('error', 'Error'),
+    )
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     response = models.TextField(blank=True)
+
