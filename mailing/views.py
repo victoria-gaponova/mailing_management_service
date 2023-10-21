@@ -144,11 +144,9 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     form_class = ClientForm
     success_url = reverse_lazy('mailing:mailing')
     raise_exception = True
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        data = super().get_context_data(object_list=None, **kwargs)
-        data['title'] = "Создание нового клиента."
-        return data
+    extra_context = {
+        'title': "Создание нового клиента."
+    }
 
     def form_valid(self, form):
         self.object = form.save()
@@ -178,5 +176,3 @@ class DeliveryReportView(ListView):
 
     def get_queryset(self):
         return Log.objects.filter(status='success')
-
-
