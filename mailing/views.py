@@ -17,8 +17,15 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['count_mailing'] = len(Mailing.objects.all())
-        active_mailings_count = Mailing.objects.filter(status__in=['created', 'started']).count()
+
+        # Получение списка рассылок
+        mailing_list = Mailing.objects.all()
+        context['object_list'] = mailing_list
+
+        # Оптимизированный запрос на количество рассылок
+        context['count_mailing'] = mailing_list.count()
+
+        active_mailings_count = mailing_list.filter(status__in=['created', 'started']).count()
         context['active_mailings_count'] = active_mailings_count
         unique_clients_count = Client.objects.filter(is_active=True).distinct().count()
         context['unique_clients_count'] = unique_clients_count
@@ -170,3 +177,5 @@ class DeliveryReportView(ListView):
 
     def get_queryset(self):
         return Log.objects.filter(status='success')
+
+
