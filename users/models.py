@@ -19,6 +19,9 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
+    def has_group(self, *group_names: str) -> bool:
+        return self.groups.filter(name__in=group_names).exists()
+
 
 class EmailVerification(models.Model):
     code = models.UUIDField(unique=True)
@@ -44,4 +47,3 @@ class EmailVerification(models.Model):
 
     def is_expired(self):
         return now() >= self.expiration
-

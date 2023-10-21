@@ -117,12 +117,13 @@ class MailingDeleteView(LoginRequiredMixin, DeleteView):
     }
 
     def get_object(self, queryset=None):
-        mailing = super().get_object(queryset)
-        mailing = get_object_or_404(Mailing, id=mailing.pk)
-        user_groups = [group.name for group in self.request.user.groups.all()]
-        if mailing.owner != self.request.user and 'Managers' not in user_groups:
-            raise Http404
+        mailing = super().get_object()
+        self.check_object_permissions(mailing)
         return mailing
+
+    def check_object_permissions(self, object: Mailing) -> None:
+        if object.owner != self.request.user or not self.request.user.has_groups('Managers'):
+            raise Http404
 
 
 class ClientListView(ListView):
